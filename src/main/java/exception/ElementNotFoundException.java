@@ -1,0 +1,7 @@
+package exception;
+
+public class ElementNotFoundException extends RuntimeException {
+    public ElementNotFoundException() {
+        super("Элемент не найден.");
+    }
+}
