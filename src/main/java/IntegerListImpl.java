@@ -5,7 +5,7 @@ import exception.WrongIndexException;
 import java.util.Arrays;
 
 public class IntegerListImpl implements IntegerList {
-    private final Integer[] list;
+    private Integer[] list;
     private int size;
 
     public IntegerListImpl() {
@@ -18,7 +18,7 @@ public class IntegerListImpl implements IntegerList {
 
     @Override
     public Integer add(Integer item) {
-        validateSize();
+        growIfNeeded();
         validateItem(item);
         list[size++] = item;
         return item;
@@ -26,7 +26,7 @@ public class IntegerListImpl implements IntegerList {
 
     @Override
     public Integer add(int index, Integer item) {
-        validateSize();
+        growIfNeeded();
         validateIndex(index);
         validateItem(item);
         if (index == size) {
@@ -134,9 +134,9 @@ public class IntegerListImpl implements IntegerList {
         }
     }
 
-    private void validateSize() {
+    private void growIfNeeded() {
         if (size == list.length) {
-            throw new StorageIsFullException();
+            grow();
         }
     }
 
@@ -176,6 +176,10 @@ public class IntegerListImpl implements IntegerList {
             }
         }
         return false;
+    }
+
+    private void grow() {
+        list = Arrays.copyOf(list, size + size / 2);
     }
 
 
